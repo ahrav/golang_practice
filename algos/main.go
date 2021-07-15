@@ -1,14 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-// Max returns the larger of x or y.
-func Max(x, y int) int {
-	if x < y {
-			return y
-	}
-	return x
-}
 
 func main() {
 	k := 5
@@ -17,36 +12,20 @@ func main() {
 	k2 := 2
 	arr2 := []int{2, 3, 4, 1, 5}
 	fmt.Println(maxSubArrayOfSizeK(k2, arr2))
-}
-
-func findAverageOfSubarrays(k int, a []float64) []float64 {
-	r := []float64{}
-	wsu, wst := 0.0, 0
-	for we := range a {
-		wsu += a[we]
-		if we >= k - 1 {
-			r = append(r, wsu / float64(k))
-			wsu -= a[wst]
-			wst += 1
-		}
-	}
-
-	return r
-}
-
-func maxSubArrayOfSizeK(k int, a []int) int {
-	if len(a) == 0 {
-		return -1
-	}
-	m := 0
-	wsu, wst := 0, 0
-	for we := range a {
-		wsu += a[we]
-		if we >= k - 1 {
-			m = Max(m, wsu)
-			wsu -= a[wst]
-			wst += 1
-		}
-	}
-	return m
+	k3 := 7
+	arr3 := []int{2, 1, 5, 2, 3, 2}
+	fmt.Println(smallestSubarrayWGivenSum(k3, arr3))
+	k4 := 2
+	str := "araaci"
+	fmt.Println(longestSubstringWKDistinct(str, k4))
+	arr4 := []string{"A", "B", "C", "B", "B", "C"}
+	fmt.Println(fruitsIntoBasket(arr4))
+	str2 := "abccde"
+	fmt.Println(nonRepeatSubstring(str2))
+	str3 := "aabccbb"
+	k5 := 2
+	fmt.Println(lengthLongestSubstring(str3, k5))
+	arr5 := []int{0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1}
+	k6 := 2
+	fmt.Println(lengthLongestSubArray(arr5, k6))
 }
