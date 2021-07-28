@@ -55,7 +55,9 @@ func main() {
 	// arr7 := []int{-1, 0, 2, 3}
 	// t2 := 3
 	// fmt.Println(tripletSmallerSum(arr7, t2))
-	arr8 := []int{2, 5, 3, 10}
-	t3 := 30
-	fmt.Println(findSubarray(arr8, t3))
+	// arr8 := []int{2, 5, 3, 10}
+	// t3 := 30
+	// fmt.Println(findSubarray(arr8, t3))
+	arr9 := []int{1, 0, 2, 1, 0}
+	fmt.Println(dutchFlagSort(arr9))
 }
