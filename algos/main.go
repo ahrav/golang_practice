@@ -58,6 +58,12 @@ func main() {
 	// arr8 := []int{2, 5, 3, 10}
 	// t3 := 30
 	// fmt.Println(findSubarray(arr8, t3))
-	arr9 := []int{1, 0, 2, 1, 0}
-	fmt.Println(dutchFlagSort(arr9))
+	// arr9 := []int{1, 0, 2, 1, 0}
+	// fmt.Println(dutchFlagSort(arr9))
+	// arr10 := []int{2, 0, -1, 1, -2, 2}
+	// t4 := 2
+	// fmt.Println(searchQuadruplets(arr10, t4))
+	// fmt.Println(backspaceCompare("xp#", "xyz##"))
+	arr11 := []int{1, 3, 2, 0, -1, 7, 10}
+	fmt.Println(shortestWindowSort(arr11))
 }
