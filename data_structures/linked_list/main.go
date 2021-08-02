@@ -146,6 +146,53 @@ func (l *linkedList) isHappyNum() bool {
 	}
 }
 
+func (l *linkedList) middle() *node{
+	sp, fp := l.head, l.head
+	if fp == nil || fp.next == nil {
+		return fp
+	}
+	for fp != nil && fp.next != nil {
+		fp = fp.next.next
+		sp = sp.next
+	}
+	return sp
+}
+
+func (l *linkedList) isPalindrome() bool {
+	if l.head == nil && l.head.next == nil {
+		return true
+	}
+
+	middle := l.middle()
+	secondHead := reverse(middle)
+	copySecondHead := secondHead
+
+	for l.head != nil && secondHead != nil {
+		if l.head.data != secondHead.data {
+			break
+		}
+		l.head = l.head.next
+		secondHead = secondHead.next
+	}
+	reverse(copySecondHead)
+
+	if l.head == nil || secondHead == nil {
+		return true
+	}
+	return false
+}
+
+func reverse(n *node) *node {
+	var prev *node
+	for n != nil {
+		nxt := n.next
+		n.next = prev
+		prev = n
+		n = nxt
+	}
+	return prev
+}
+
 func findHappyNum(n int) bool {
 	sp, fp := n, n
 	for {
@@ -169,16 +216,22 @@ func squareSum(n int) int {
 }
 
 func main() {
-	myList := linkedList{}
-	node1 := &node{data: 10}
-	node2 := &node{data: 15}
-	node3 := &node{data: 19}
-	node4 := &node{data: 45}
-	myList.prepend(node1)
-	myList.prepend(node2)
-	myList.prepend(node3)
-	myList.prepend(node4)
-	node1.next = myList.head.next
+	// myList := linkedList{}
+	middleList := linkedList{}
+	// node1 := &node{data: 6}
+	node2 := &node{data: 5}
+	node3 := &node{data: 4}
+	node4 := &node{data: 3}
+	node5 := &node{data: 2}
+	node6 := &node{data: 1}
+	// middleList.prepend(node1)
+	middleList.prepend(node2)
+	middleList.prepend(node3)
+	middleList.prepend(node4)
+	middleList.prepend(node5)
+	middleList.prepend(node6)
+	fmt.Println(*middleList.middle())
+	// node1.next = myList.head.next
 	// myList.printListData()
 	// fmt.Println(myList.hasCycle())
 	// fmt.Println(myList.cycleLength())
