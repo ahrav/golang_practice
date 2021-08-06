@@ -119,6 +119,49 @@ func mergeIntersection(intervals1 []Interval, intervals2 []Interval) []Interval 
 	return unionIntervals
 }
 
+func hasOverlap(intervals []Interval) bool {
+	if len(intervals) <= 1 {
+		return false
+	}
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i].Start < intervals[j].Start
+	})
+
+	e := intervals[0].End
+	for i:=1; i<len(intervals); i++ {
+		interval := intervals[i]
+		if interval.Start < e {
+			return true
+		}
+		e = interval.End
+	}
+	return false
+}
+
+func overlapIntervals(intervals []Interval) []Interval {
+	if len(intervals) <= 1 {
+		return intervals
+	}
+
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i].Start < intervals[j].Start
+	})
+
+	var overlaps []Interval
+	s := intervals[0].Start
+	e := intervals[0].End
+	for i:=1; i<len(intervals); i++ {
+		interval := intervals[i]
+		if interval.Start < e {
+			overlaps = append(overlaps, Interval{Start: s, End: e}, Interval{Start: interval.Start, End: interval.End})
+			continue
+		}
+		e = interval.End
+		s = interval.Start
+	}
+	return overlaps
+}
+
 func mergeIntervalsExample() {
 	intervals := []Interval{{Start: 6, End: 7}, {Start: 2, End: 4}, {Start: 5, End: 9}}
 	fmt.Println(mergeIntervals(intervals))
@@ -129,4 +172,8 @@ func mergeIntervalsExample() {
 	intervals4 := []Interval{{Start: 1, End: 3}, {Start: 5, End: 7}, {Start: 9, End: 12}}
 	intervals5 := []Interval{{Start: 5, End: 10}}
 	fmt.Println(mergeIntersection(intervals4, intervals5))
+	intervals6 := []Interval{{Start: 6, End: 7}, {Start: 2, End: 4}, {Start: 8, End: 12}}
+	fmt.Println(hasOverlap(intervals6))
+	intervals7 := []Interval{{Start: 4, End: 5}, {Start: 2, End: 3}, {Start: 3, End: 6}, {Start: 5, End: 7}, {Start: 7, End: 8}}
+	fmt.Println(overlapIntervals(intervals7))
 }
