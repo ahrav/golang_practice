@@ -182,6 +182,26 @@ func (l *linkedList) isPalindrome() bool {
 	return false
 }
 
+func (l *linkedList) reorder() {
+	if l.head == nil && l.head.next == nil {
+		return
+	}
+	middle := l.middle()
+	secondHead := reverse(middle)
+	firstHead := l.head
+	for firstHead != nil && secondHead != nil {
+		fnxt := firstHead.next
+		firstHead.next = secondHead
+		firstHead = fnxt
+		lnxt := secondHead.next
+		secondHead.next = firstHead
+		secondHead = lnxt
+	}
+	if firstHead != nil {
+		firstHead.next = nil
+	}
+}
+
 func reverse(n *node) *node {
 	var prev *node
 	for n != nil {
@@ -215,22 +235,64 @@ func squareSum(n int) int {
 	return sum
 }
 
+func circularArrLoopExists(arr []int) bool {
+	for i := range arr {
+		isForward := arr[i] >= 0
+		sp, fp := i, i
+		for {
+			sp = nextIdx(arr, isForward, sp)
+			fp = nextIdx(arr, isForward, fp)
+
+			if fp != -1 {
+				fp = nextIdx(arr, isForward, fp)
+			}
+			if sp == -1 || fp == -1 || fp == sp {
+				break
+			}
+		}
+		if sp != -1 && sp == fp {
+			return true
+		}
+	}
+	return false
+}
+
+func nextIdx(arr []int, isForward bool, i int) int {
+	dir := arr[i] >= 0
+
+	if isForward != dir {
+		return -1
+	}
+
+	nextIdx := (i + arr[i]) % len(arr)
+
+	if nextIdx == i {
+		nextIdx = -1
+	}
+
+	return nextIdx
+}
+
 func main() {
 	// myList := linkedList{}
 	middleList := linkedList{}
 	// node1 := &node{data: 6}
-	node2 := &node{data: 5}
-	node3 := &node{data: 4}
-	node4 := &node{data: 3}
-	node5 := &node{data: 2}
-	node6 := &node{data: 1}
+	node2 := &node{data: 12}
+	node3 := &node{data: 10}
+	node4 := &node{data: 8}
+	node5 := &node{data: 6}
+	node6 := &node{data: 4}
+	node7 := &node{data: 2}
 	// middleList.prepend(node1)
 	middleList.prepend(node2)
 	middleList.prepend(node3)
 	middleList.prepend(node4)
 	middleList.prepend(node5)
 	middleList.prepend(node6)
-	fmt.Println(*middleList.middle())
+	middleList.prepend(node7)
+	middleList.reorder()
+	middleList.printListData()
+	// fmt.Println(*middleList.middle())
 	// node1.next = myList.head.next
 	// myList.printListData()
 	// fmt.Println(myList.hasCycle())
@@ -241,4 +303,5 @@ func main() {
 	newList.prepend(n1)
 	fmt.Println(newList.isHappyNum())
 	fmt.Println(findHappyNum(12))
+	fmt.Println(circularArrLoopExists([]int{2, 1, -1, -2}))
 }

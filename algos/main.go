@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 
 func main() {
 	// k := 5
@@ -64,6 +60,7 @@ func main() {
 	// t4 := 2
 	// fmt.Println(searchQuadruplets(arr10, t4))
 	// fmt.Println(backspaceCompare("xp#", "xyz##"))
-	arr11 := []int{1, 3, 2, 0, -1, 7, 10}
-	fmt.Println(shortestWindowSort(arr11))
+	// arr11 := []int{1, 3, 2, 0, -1, 7, 10}
+	// fmt.Println(shortestWindowSort(arr11))
+	mergeIntervalsExample()
 }
