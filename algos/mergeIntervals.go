@@ -13,6 +13,11 @@ type Interval struct {
 	End int
 }
 
+type job struct {
+	Load int
+	Interval
+}
+
 func mergeIntervals(intervals []Interval) []Interval {
 	if len(intervals) < 2 {
 		return intervals
@@ -162,6 +167,56 @@ func overlapIntervals(intervals []Interval) []Interval {
 	return overlaps
 }
 
+func minMeetings(intervals []Interval) int {
+	if len(intervals) <= 1 {
+		return 1
+	}
+
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i].Start < intervals[j].Start
+	})
+
+	c := 1
+	e := intervals[0].End
+	for i:=1; i<len(intervals); i++ {
+		interval := intervals[i]
+		if interval.Start < e {
+			c++
+			e = interval.End
+			continue
+		}
+		e = interval.End
+	}
+	return c
+}
+
+func maxLoad(jobs []job) int {
+	if len(jobs) == 0 {
+		return -1
+	}
+	if len(jobs) == 1 {
+		return jobs[0].Load
+	}
+
+	sort.Slice(jobs, func(i, j int) bool {
+		return jobs[i].Start < jobs[j].Start
+	})
+
+	l := jobs[0].Load
+	e := jobs[0].End
+	for i:=1; i<len(jobs); i++ {
+		job := jobs[i]
+		if job.Start < e {
+			l+=job.Load
+			continue
+		}
+		l = utils.Max(job.Load, l)
+	}
+	return l
+}
+
+
+
 func mergeIntervalsExample() {
 	intervals := []Interval{{Start: 6, End: 7}, {Start: 2, End: 4}, {Start: 5, End: 9}}
 	fmt.Println(mergeIntervals(intervals))
@@ -176,4 +231,13 @@ func mergeIntervalsExample() {
 	fmt.Println(hasOverlap(intervals6))
 	intervals7 := []Interval{{Start: 4, End: 5}, {Start: 2, End: 3}, {Start: 3, End: 6}, {Start: 5, End: 7}, {Start: 7, End: 8}}
 	fmt.Println(overlapIntervals(intervals7))
+	intervals8 := []Interval{{Start: 4, End: 5}, {Start: 2, End: 3}, {Start: 3, End: 5}}
+	fmt.Println(minMeetings(intervals8))
+	t1 := Interval{Start: 1, End: 4}
+	jobs := []job{{Load: 2, Interval: t1}, {Load: 1, Interval: Interval{Start: 2, End: 4}}, {Load: 5, Interval: Interval{Start: 3, End: 6}}}
+	fmt.Println(maxLoad(jobs))
+	// p1 := [][]Interval{{{Start: 1, End: 3}}}
+	// p2 := [][]Interval{{{Start: 9, End: 12}}}
+	// p3 := [][]Interval{{{Start: 2, End: 4}, {Start: 6, End: 8}}}
+	// h := [][][]Interval{p1, p2, p3}
 }
