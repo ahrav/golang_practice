@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 
 func main() {
 	// k := 5
@@ -62,5 +64,33 @@ func main() {
 	// fmt.Println(backspaceCompare("xp#", "xyz##"))
 	// arr11 := []int{1, 3, 2, 0, -1, 7, 10}
 	// fmt.Println(shortestWindowSort(arr11))
-	mergeIntervalsExample()
+	// mergeIntervalsExample()
+	// cyclicArr := []int{2, 6, 4, 3, 1, 5}
+	// fmt.Println(cyclicSort(cyclicArr))
+	// missingNumArr := []int{8, 3, 5, 2, 4, 6, 0, 1}
+	// fmt.Println(missingNum(missingNumArr))
+	// missingNumsArr := []int{2, 3, 1, 8, 2, 3, 5, 1}
+	// missingNumsArr2 := []int{2, 4, 1, 2}
+	// missingNumsArr3 := []int{2, 3, 2, 1}
+	// fmt.Println(findMissingNums(missingNumsArr))
+	// fmt.Println(findMissingNums(missingNumsArr2))
+	// fmt.Println(findMissingNums(missingNumsArr3))
+	// duplicateArr := []int{1, 4, 4, 3, 2}
+	// duplicateArr2 := []int{2, 1, 3, 3, 5, 4}
+	// duplicateArr3 := []int{2, 4, 1, 4, 4}
+	// fmt.Println(findDuplicates(duplicateArr))
+	// fmt.Println(findDuplicates(duplicateArr2))
+	// fmt.Println(findDuplicates(duplicateArr3))
+	// allDuplictesArr := []int{3, 4, 4, 5, 5}
+	// allDuplictesArr2 := []int{5, 4, 7, 2, 3, 5, 3}
+	// fmt.Println(findAllDuplicates(allDuplictesArr))
+	// fmt.Println(findAllDuplicates(allDuplictesArr2))
+	// corruptNumArr := []int{3, 1, 2, 5, 2}
+	// corruptNumArr2 := []int{3, 1, 2, 3, 6, 4}
+	// fmt.Println(findCorruptNumbers(corruptNumArr))
+	// fmt.Println(findCorruptNumbers(corruptNumArr2))
+	firstSmallestMissingArr := []int{3, -2, 0, 1, 2}
+	firstSmallestMissingArr2 := []int{3, 2, 5, 1}
+	fmt.Println(firstSmallestMissingNum(firstSmallestMissingArr))
+	fmt.Println(firstSmallestMissingNum(firstSmallestMissingArr2))
 }
