@@ -89,8 +89,14 @@ func main() {
 	// corruptNumArr2 := []int{3, 1, 2, 3, 6, 4}
 	// fmt.Println(findCorruptNumbers(corruptNumArr))
 	// fmt.Println(findCorruptNumbers(corruptNumArr2))
-	firstSmallestMissingArr := []int{3, -2, 0, 1, 2}
-	firstSmallestMissingArr2 := []int{3, 2, 5, 1}
-	fmt.Println(firstSmallestMissingNum(firstSmallestMissingArr))
-	fmt.Println(firstSmallestMissingNum(firstSmallestMissingArr2))
+	// firstSmallestMissingArr := []int{3, -2, 0, 1, 2}
+	// firstSmallestMissingArr2 := []int{3, 2, 5, 1}
+	// fmt.Println(firstSmallestMissingNum(firstSmallestMissingArr))
+	// fmt.Println(firstSmallestMissingNum(firstSmallestMissingArr2))
+	kMissingPositiveArr := []int{3, -1, 4, 5, 5}
+	kMissingPositiveArr2 := []int{2, 3, 4}
+	kMissingPositiveArr3 := []int{-2, -3, 4}
+	fmt.Println(firstKMissingPositive2(kMissingPositiveArr, 3))
+	fmt.Println(firstKMissingPositive2(kMissingPositiveArr2, 3))
+	fmt.Println(firstKMissingPositive2(kMissingPositiveArr3, 2))
 }
