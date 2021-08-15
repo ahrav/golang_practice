@@ -96,6 +96,9 @@ func main() {
 	kMissingPositiveArr := []int{3, -1, 4, 5, 5}
 	kMissingPositiveArr2 := []int{2, 3, 4}
 	kMissingPositiveArr3 := []int{-2, -3, 4}
+	fmt.Println(firstKMissingPositive(kMissingPositiveArr, 3))
+	fmt.Println(firstKMissingPositive(kMissingPositiveArr2, 3))
+	fmt.Println(firstKMissingPositive(kMissingPositiveArr3, 2))
 	fmt.Println(firstKMissingPositive2(kMissingPositiveArr, 3))
 	fmt.Println(firstKMissingPositive2(kMissingPositiveArr2, 3))
 	fmt.Println(firstKMissingPositive2(kMissingPositiveArr3, 2))

@@ -1,8 +1,13 @@
 package main
 
-import "sort"
+import (
+	"fmt"
+	"sort"
+	"time"
+)
 
 func firstKMissingPositive(arr []int, k int) []int {
+	start := time.Now()
 	sort.Ints(arr)
 	e := 1
 	var i int
@@ -24,10 +29,13 @@ func firstKMissingPositive(arr []int, k int) []int {
 			k--
 		}
 	}
+	duration := time.Since(start)
+	fmt.Printf("Func 1 %s", duration)
 	return res
 }
 
 func firstKMissingPositive2(arr []int, k int) []int {
+	start := time.Now()
 	var i int
 	for i < len(arr) {
 		j := arr[i] - 1
@@ -57,5 +65,7 @@ func firstKMissingPositive2(arr []int, k int) []int {
 			missingNums = append(missingNums, num)
 		}
 	}
+	duration := time.Since(start)
+	fmt.Printf("Func 2 %s", duration)
 	return missingNums
 }
