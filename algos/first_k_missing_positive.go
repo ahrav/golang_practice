@@ -66,6 +66,6 @@ func firstKMissingPositive2(arr []int, k int) []int {
 		}
 	}
 	duration := time.Since(start)
-	fmt.Printf("Func 2 %s", duration)
+	fmt.Printf("Func 2  %s", duration)
 	return missingNums
 }
