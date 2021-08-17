@@ -5,6 +5,7 @@ import (
 	"math"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type node struct {
@@ -213,6 +214,166 @@ func reverse(n *node) *node {
 	return prev
 }
 
+func reverseSublist(n *node, p, q int) *node {
+	if p == q {
+		return n
+	}
+	var prev *node
+	cur := n
+	var i int
+	for n != nil && i < p-1 {
+		prev = cur
+		cur = cur.next
+		i++
+	}
+	lastNodeFirst := prev
+	lastNodeSublist := cur
+	var next *node
+
+	i = 0
+	for cur != nil && i < q-p+1 {
+		next = cur.next
+		cur.next = prev
+		prev = cur
+		cur = next
+		i++
+	}
+
+	if lastNodeFirst != nil {
+		lastNodeFirst.next = prev
+	} else {
+		n = prev
+	}
+
+	lastNodeSublist.next = cur
+	return n
+}
+
+func reverseKSublist(n *node, k int) *node {
+	if k <= 1 {
+		return n
+	}
+	var prev *node
+	cur := n
+	for {
+		lastNodeFirst := prev
+		lastNodeSublist := cur
+		var next *node
+		var i int
+		for cur != nil && i < k {
+			next = cur.next
+			cur.next = prev
+			prev = cur
+			cur = next
+			i++
+		}
+		if lastNodeFirst != nil {
+			lastNodeFirst.next = prev
+		} else {
+			n = prev
+		}
+		lastNodeSublist.next = cur
+		if cur == nil {
+			break
+		}
+		prev = lastNodeSublist
+	}
+	return n
+}
+
+func reverseKAltSublist(n *node, k int) *node {
+	if k <= 1 || n == nil {
+		return n
+	}
+	var prev *node
+	cur := n
+	for cur != nil {
+		lastNodeFirst := prev
+		lastNodeSublist := cur
+		var next *node
+		var i int
+		for cur != nil && i < k {
+			next = cur.next
+			cur.next = prev
+			prev = cur
+			cur = next
+			i++
+		}
+		if lastNodeFirst != nil {
+			lastNodeFirst.next = prev
+		} else {
+			n = prev
+		}
+		lastNodeSublist.next = cur
+		i = 0
+		for cur != nil && i < k {
+			prev = cur
+			cur = cur.next
+			i++
+		}
+	}
+	return n
+}
+
+func rotate(n *node, k int) *node {
+	start := time.Now()
+	if n == nil || n.next == nil || k == 0 {
+		return n
+	}
+	l := 1
+	last := n
+	for last.next != nil {
+		last = last.next
+		l++
+	}
+	k %= l
+	var prev *node
+	cur := n
+	var i int
+	for cur != nil && i < k {
+		prev = cur
+		cur = cur.next
+		i++
+	}
+	lastNodeFirst := prev
+	startNodeLast := cur
+	for cur != nil {
+		prev = cur
+		cur = cur.next
+	}
+	lastNodeFirst.next = cur
+	prev.next = n
+	n = startNodeLast
+	elapsed := time.Since(start)
+	fmt.Printf("Elapsed time %s", elapsed)
+	return n
+}
+
+func rotate2(n *node, k int) *node {
+	start := time.Now()
+	if n == nil || n.next == nil || k == 0 {
+		return n
+	}
+	l := 1
+	last := n
+	for last.next != nil {
+		last = last.next
+		l++
+	}
+	last.next = n
+	k %= l
+	skip := l-k
+	lastNodeRotated := n
+	for i:=0; i<(skip-1); i++ {
+		lastNodeRotated = lastNodeRotated.next
+	}
+	n = lastNodeRotated.next
+	lastNodeRotated.next = nil
+	elapsed := time.Since(start)
+	fmt.Printf("Elapsed time %s", elapsed)
+	return n
+}
+
 func findHappyNum(n int) bool {
 	sp, fp := n, n
 	for {
@@ -276,32 +437,38 @@ func nextIdx(arr []int, isForward bool, i int) int {
 func main() {
 	// myList := linkedList{}
 	middleList := linkedList{}
-	// node1 := &node{data: 6}
-	node2 := &node{data: 12}
-	node3 := &node{data: 10}
-	node4 := &node{data: 8}
-	node5 := &node{data: 6}
-	node6 := &node{data: 4}
-	node7 := &node{data: 2}
+	// node1 := &node{data: 7}
+	// node2 := &node{data: 6}
+	node3 := &node{data: 5}
+	node4 := &node{data: 4}
+	node5 := &node{data: 3}
+	node6 := &node{data: 2}
+	node7 := &node{data: 1}
 	// middleList.prepend(node1)
-	middleList.prepend(node2)
+	// middleList.prepend(node2)
 	middleList.prepend(node3)
 	middleList.prepend(node4)
 	middleList.prepend(node5)
 	middleList.prepend(node6)
 	middleList.prepend(node7)
-	middleList.reorder()
+	// middleList.reorder()
 	middleList.printListData()
+	// x := reverseKSublist(node7, 2)
+	x := rotate(node7, 8)
+	fmt.Println(x.data, x.next.data, x.next.next.data, x.next.next.next.data, x.next.next.next.next.data)
+	// x2 := rotate2(node7, 8)
+	// fmt.Println(x2.data, x2.next.data, x2.next.next.data, x2.next.next.next.data, x2.next.next.next.next.data)
+	// middleList.printListData()
 	// fmt.Println(*middleList.middle())
 	// node1.next = myList.head.next
 	// myList.printListData()
 	// fmt.Println(myList.hasCycle())
 	// fmt.Println(myList.cycleLength())
 	// fmt.Println(myList.cycleStart())
-	newList := linkedList{}
-	n1 := &node{data: 12}
-	newList.prepend(n1)
-	fmt.Println(newList.isHappyNum())
-	fmt.Println(findHappyNum(12))
-	fmt.Println(circularArrLoopExists([]int{2, 1, -1, -2}))
+	// newList := linkedList{}
+	// n1 := &node{data: 12}
+	// newList.prepend(n1)
+	// fmt.Println(newList.isHappyNum())
+	// fmt.Println(findHappyNum(12))
+	// fmt.Println(circularArrLoopExists([]int{2, 1, -1, -2}))
 }
