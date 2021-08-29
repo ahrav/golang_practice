@@ -3,7 +3,14 @@ package main
 import (
 	"fmt"
 	"time"
+
+	"github.com/ahrav/learngo/algos/utils"
 )
+
+type Tree struct {
+	Diameter int
+	Node *Node
+}
 
 type Node struct {
 	Value int
@@ -80,6 +87,30 @@ func (n *Node) recursivePaths2(sum int, path []int, allPaths *[][]int) {
 		n.Right.recursivePaths(sum - n.Value, path, allPaths)
 		n.Left.recursivePaths(sum - n.Value, path, allPaths)
 	}
+}
+
+// AnySumPath any path from top down that adds to a value.
+func (n *Node) AnySumPath(s int) int {
+	var p []int
+	return n.recursiveAnyPath(s, p)
+}
+
+func (n *Node) recursiveAnyPath(sum int, path []int) int {
+	if n == nil {
+		return 0
+	}
+	path = append(path, n.Value)
+	pc, ps := 0, 0
+	for i:=len(path)-1; i>=0; i-- {
+		ps+=path[i]
+		if ps == sum {
+			pc++
+		}
+	}
+	pc += n.Right.recursiveAnyPath(sum, path)
+	pc += n.Left.recursiveAnyPath(sum, path)
+	path = path[:len(path)-1]
+	return pc
 }
 
 // SumNumberPath gets the sum of each DFS path.
@@ -160,20 +191,53 @@ func sliceToInt(s []int) int {
 	return res
 }
 
+func diameterOfBinaryTree(root *Node) int {
+	ans := 0
+	dfs(root, &ans)
+	return ans
+}
+
+func dfs(root *Node, ans *int) int {
+	if root == nil { return 0 }
+	L := dfs(root.Left, ans)
+	R := dfs(root.Right, ans)
+	*ans = utils.Max(*ans, L + R + 1)
+	return utils.Max(L, R) + 1
+}
+
+func maxSumPath(root *Node) int {
+	ans := 0
+	dfs2(root, &ans)
+	return ans
+}
+
+func dfs2(root *Node, ans *int) int {
+	if root == nil { return 0 }
+	L := dfs2(root.Left, ans)
+	R := dfs2(root.Right, ans)
+	*ans = utils.Max(*ans, L + R + root.Value)
+	return utils.Max(L, R) + root.Value
+}
+
 func main() {
 	// node := &Node{Value: 3}
 	root := &Node{Value: 1}
-	root.Left = &Node{Value: 9}
-	root.Right = &Node{Value: 7}
-	root.Left.Left = &Node{Value: 9}
-	root.Right.Left = &Node{Value: 5}
-	root.Right.Right = &Node{Value: 4}
-	root.Left.Right = &Node{Value: 2}
-	// root.Right.Left.Right = &Node{Value: 17}
-	fmt.Println(root.SumPath(11))
-	fmt.Println(root.AllSumPath(12))
-	fmt.Println(root.AllSumPath2(12))
-	fmt.Println(root.SumNumberPath())
-	fmt.Println(root.SumNumberPath2())
-	fmt.Println(root.PathSequence([]int{1, 9, 9}))
+	root.Left = &Node{Value: 3}
+	root.Right = &Node{Value: 2}
+	root.Left.Left = &Node{Value: 6}
+	root.Right.Left = &Node{Value: 3}
+	root.Right.Right = &Node{Value: 1}
+	root.Left.Right = &Node{Value: 5}
+	root.Left.Left.Right = &Node{Value: 9}
+	root.Left.Right.Right = &Node{Value: 7}
+	root.Left.Right.Left = &Node{Value: 8}
+	// fmt.Println(root.SumPath(11))
+	// fmt.Println(root.AllSumPath(12))
+	// fmt.Println(root.AllSumPath2(12))
+	// fmt.Println(root.SumNumberPath())
+	// fmt.Println(root.SumNumberPath2())
+	// fmt.Println(root.PathSequence([]int{1, 9, 9}))
+	// fmt.Println(root.AnySumPath(12))
+	fmt.Println(diameterOfBinaryTree(root))
+	fmt.Println(maxSumPath(root))
 }
