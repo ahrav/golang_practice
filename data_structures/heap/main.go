@@ -1,6 +1,62 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/ahrav/learngo/algos/utils"
+)
+
+// MinH is a min-heap of ints.
+type MinH [][]int
+
+func (h MinH) Len() int           { return len(h) }
+func (h MinH) Less(i, j int) bool { return h[i][0] < h[j][0] }
+func (h MinH) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+func (h *MinH) Push(x interface{}) {
+	// Push and Pop use pointer receivers because they modify the slice's length,
+	// not just its contents.
+	*h = append(*h, x.([]int))
+}
+
+func (h *MinH) Pop() []int {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
+
+func (h *MinH) Peek() []int {
+	old := *h
+	return old[0]
+}
+
+// MaxH is a max-heap of ints.
+type MaxH [][]int
+
+func (h MaxH) Len() int           { return len(h) }
+func (h MaxH) Less(i, j int) bool { return h[i][0] > h[j][0] }
+func (h MaxH) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+func (h *MaxH) Push(x interface{}) {
+	// Push and Pop use pointer receivers because they modify the slice's length,
+	// not just its contents.
+	*h = append(*h, x.([]int))
+}
+
+func (h *MaxH) Pop() []int {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
+
+func (h *MaxH) Peek() []int {
+	old := *h
+	return old[0]
+}
 
 // MaxHeap struct has slice that holds array.
 type MaxHeap struct{
@@ -203,7 +259,43 @@ func slidingWindow(arr []int, k int) []float64 {
 	return res
 }
 
+func maxCapital(c, p []int, ic, n int) int {
+	res := ic
+	for n > 0 {
+		var max int
+		for i, e := range c {
+			if res >= e {
+				max = utils.Max(max, p[i])
+			}
+		}
+		res+=max
+		n--
+		max = 0
+	}
+	return res
+}
+
+func maxCapitalHeap(c, p []int, ic, n int) int {
+	min := MinH{}
+	max := MaxH{}
+	for i, e := range c {
+		min.Push([]int{e, i})
+	}
+	cap := ic
+	for i:=0; i<n; i++ {
+		for min.Len() > 0 && min.Peek()[0] <= cap {
+			max.Push(p[min.Pop()[1]])
+		}
+		if max.Len() == 0 {
+			break
+		}
+		cap+=max.Pop()[0]
+	}
+	return cap
+}
+
 func main() {
+	fmt.Println(maxCapital([]int{0, 1, 2, 3}, []int{1, 2, 3, 5}, 0, 3))
 	m := &MaxHeap{}
 	n := &MinHeap{}
 	mh := &MedianHeap{min: n, max: m}
@@ -224,8 +316,8 @@ func main() {
 		// fmt.Println(mh)
 	}
 	// fmt.Println(mh.Median())
-	nums := []int{1, 2, -1, 3, 5, 7}
-	fmt.Println(slidingWindow(nums, 3))
+	// nums := []int{1, 2, -1, 3, 5, 7}
+	// fmt.Println(slidingWindow(nums, 3))
 
 	// for i := 0; i < 5; i++ {
 	// 	m.Extract()
