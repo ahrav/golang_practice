@@ -24,3 +24,20 @@ func Abs(x int) int {
 	}
 	return x
 }
+
+// Insert adds value into specified index in a slice.
+func Insert(a []int, idx int, val int) []int {
+	if len(a) == idx {
+		return append(a, val)
+	}
+	a = append(a[:idx+1], a[idx:]...)
+	a[idx] = val
+	return a
+}
+
+// Remove element from a slice while retaining the order.
+func Remove(s [][]int, i int) []int {
+	val := s[i]
+	_ = append(s[:i], s[i+1:]...)
+	return val
+}
