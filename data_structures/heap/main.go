@@ -1,6 +1,7 @@
 package main
 
 import (
+	"container/heap"
 	"fmt"
 
 	"github.com/ahrav/learngo/algos/utils"
@@ -54,6 +55,58 @@ func (h *MaxH) Pop() []int {
 }
 
 func (h *MaxH) Peek() []int {
+	old := *h
+	return old[0]
+}
+
+// MaxStartHeap is a max-heap of ints.
+type MaxStartHeap [][]int
+
+func (h MaxStartHeap) Len() int           { return len(h) }
+func (h MaxStartHeap) Less(i, j int) bool { return h[i][0] > h[j][0] }
+func (h MaxStartHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+func (h *MaxStartHeap) Push(x interface{}) {
+	// Push and Pop use pointer receivers because they modify the slice's length,
+	// not just its contents.
+	*h = append(*h, x.([]int))
+}
+
+func (h *MaxStartHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
+
+func (h *MaxStartHeap) Peek() []int {
+	old := *h
+	return old[0]
+}
+
+// MaxEndHeap is a max-heap of ints.
+type MaxEndHeap [][]int
+
+func (h MaxEndHeap) Len() int           { return len(h) }
+func (h MaxEndHeap) Less(i, j int) bool { return h[i][0] > h[j][0] }
+func (h MaxEndHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+func (h *MaxEndHeap) Push(x interface{}) {
+	// Push and Pop use pointer receivers because they modify the slice's length,
+	// not just its contents.
+	*h = append(*h, x.([]int))
+}
+
+func (h *MaxEndHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
+
+func (h *MaxEndHeap) Peek() []int {
 	old := *h
 	return old[0]
 }
@@ -294,13 +347,41 @@ func maxCapitalHeap(c, p []int, ic, n int) int {
 	return cap
 }
 
+func nextInterval(interval [][]int) []int {
+	min := &MaxStartHeap{}
+	max := &MaxEndHeap{}
+	heap.Init(min)
+	heap.Init(max)
+	res := make([]int, len(interval))
+	for i, e := range interval {
+		heap.Push(min, []int{e[0], i})
+		heap.Push(max, []int{e[1], i})
+	}
+	for range interval {
+		topEnd := heap.Pop(max)
+		end := topEnd.([]int)
+		res[end[1]] = -1
+		if min.Peek()[0] >= end[0] {
+			start := heap.Pop(min)
+			for min.Len() > 0 && min.Peek()[0] >= end[0] {
+				start = heap.Pop(min)
+			}
+			tStart := start.([]int)
+			res[end[1]] = tStart[1]
+			heap.Push(min, start)
+		}
+	}
+	return res
+}
+
 func main() {
-	fmt.Println(maxCapital([]int{0, 1, 2, 3}, []int{1, 2, 3, 5}, 0, 3))
+	// fmt.Println(maxCapital([]int{0, 1, 2, 3}, []int{1, 2, 3, 5}, 0, 3))
 	m := &MaxHeap{}
 	n := &MinHeap{}
 	mh := &MedianHeap{min: n, max: m}
 	// buildHeap := []int{10, 20, 30, 5, 7, 9, 11, 15, 17, 22}
 	buildHeap2 := []int{3, 1, 5, 4}
+	fmt.Println(nextInterval([][]int{{2, 3}, {3, 4}, {5, 6}}))
 	// for _, v := range buildHeap {
 	// 	// m.Insert(v)
 	// 	// n.Insert(v)

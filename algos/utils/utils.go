@@ -26,7 +26,7 @@ func Abs(x int) int {
 }
 
 // Insert adds value into specified index in a slice.
-func Insert(a []int, idx int, val int) []int {
+func Insert(a []interface{}, idx int, val int) []interface{} {
 	if len(a) == idx {
 		return append(a, val)
 	}
@@ -36,8 +36,21 @@ func Insert(a []int, idx int, val int) []int {
 }
 
 // Remove element from a slice while retaining the order.
-func Remove(s [][]int, i int) []int {
+func Remove(s [][]interface{}, i int) []interface{} {
 	val := s[i]
 	_ = append(s[:i], s[i+1:]...)
 	return val
+}
+
+// SwapCase returns the swapped case of the rune.
+func SwapCase(x []rune) rune {
+	r := x[0]
+	switch {
+	case 'a' <= r && r <= 'z':
+			return r - 'a' + 'A'
+	case 'A' <= r && r <= 'Z':
+			return r - 'A' + 'a'
+	default:
+			return r
+	}
 }
